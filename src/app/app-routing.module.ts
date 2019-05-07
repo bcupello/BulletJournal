@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'future-log',
     loadChildren: './future-log/future-log.module#FutureLogPageModule'
+  },
+  {
+    path: 'monthly-log',
+    loadChildren: './monthly-log/monthly-log.module#MonthlyLogPageModule'
   }
 ];
 
