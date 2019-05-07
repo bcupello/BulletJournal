@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: './login/login.module#LoginPageModule'
+  },
+  {
+    path: 'future-log',
+    loadChildren: './future-log/future-log.module#FutureLogPageModule'
   }
 ];
 
