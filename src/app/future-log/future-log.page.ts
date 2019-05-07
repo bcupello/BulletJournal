@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FutureLogService } from './future-log.service';
 
 @Component({
   selector: 'app-future-log',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FutureLogPage implements OnInit {
 
-  constructor() { }
+	text: string = 'World';
+
+  constructor(private futureLogService: FutureLogService) { }
 
   ngOnInit() {
+  }
+
+  changeText() {
+		this.text = this.futureLogService.getText();
   }
 
 }
