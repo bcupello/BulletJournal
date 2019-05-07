@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'monthly-log',
     loadChildren: './monthly-log/monthly-log.module#MonthlyLogPageModule'
+  },
+  {
+    path: 'daily-log',
+    loadChildren: './daily-log/daily-log.module#DailyLogPageModule'
   }
 ];
 
