@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DailyLogService } from './daily-log.service';
 
 @Component({
   selector: 'app-daily-log',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DailyLogPage implements OnInit {
 
-  constructor() { }
+  constructor(private dailyLogService: DailyLogService) { }
+
+  text: string = "lindo";
 
   ngOnInit() {
+  }
+
+  changeText() {
+  	this.text = this.dailyLogService.getRolha();
   }
 
 }
