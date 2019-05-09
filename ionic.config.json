@@ -1,5 +1,7 @@
 {
   "name": "BulletJournal",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
