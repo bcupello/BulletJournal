@@ -84,6 +84,5 @@
       "android"
     ],
     "cordova-sqlite-storage": {}
-    }
   }
 }

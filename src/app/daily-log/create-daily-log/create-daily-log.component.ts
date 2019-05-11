@@ -13,7 +13,6 @@ import { DailyLog } from 'src/app/daily-log';
 export class CreateDailyLogComponent implements OnInit {
 
   popover: PopoverController;
-  toast: ToastExample;
   log: DailyLog;
   toastCtrl: ToastController;
   
