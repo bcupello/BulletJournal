@@ -71,7 +71,6 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-<<<<<<< HEAD
       "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
@@ -83,10 +82,8 @@
     },
     "platforms": [
       "android"
-    ]
-=======
-      "cordova-sqlite-storage": {}
+    ],
+    "cordova-sqlite-storage": {}
     }
->>>>>>> d4978415fddc16c216221858bf2eea7f3a9cf538
   }
 }
