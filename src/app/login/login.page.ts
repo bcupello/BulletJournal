@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  sto: string = "teste";
+
+  constructor(private storage: Storage) { }
 
   ngOnInit() {
+    this.storage.set('age', this.sto);
+  }
+
+  changeText() {
+    this.storage.get('age').then((val) => {
+      console.log('Your age is', val);
+    });
   }
 
 }

@@ -16,6 +16,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 library.add(fas, far, fab);
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ library.add(fas, far, fab);
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
