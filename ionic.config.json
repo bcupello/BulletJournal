@@ -1,7 +1,8 @@
 {
   "name": "BulletJournal",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

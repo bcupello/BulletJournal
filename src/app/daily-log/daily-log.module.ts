@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { DailyLogPage } from './daily-log.page';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CreateDailyLogComponent } from './create-daily-log/create-daily-log.component';
+
 
 const routes: Routes = [
   {
@@ -19,8 +20,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FontAwesomeModule
   ],
-  declarations: [DailyLogPage]
+  entryComponents: [CreateDailyLogComponent],
+  declarations: [DailyLogPage, CreateDailyLogComponent]
 })
 export class DailyLogPageModule {}

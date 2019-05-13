@@ -10,6 +10,100 @@
 </ion-header>
 
 <ion-content>
-	<ion-title>Sou {{ text }}.</ion-title>
-	<ion-button color="primary" (click)="changeText()" >Botão</ion-button>
+
+  <ion-item>
+
+    <ion-label>De</ion-label>
+    <ion-datetime display-format="DD/MMM/YY" value="2019-05-11"
+    month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+    cancel-text="Cancelar"
+    done-text="Confirmar"
+    >
+    </ion-datetime>
+
+    <ion-label>até</ion-label>
+    <ion-datetime display-format="DD/MMM/YY" value="2019-05-11"
+    month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+    cancel-text="Cancelar"
+    done-text="Confirmar"
+    >
+    </ion-datetime>
+
+  </ion-item>
+
+  <ion-button expand="full" shape="round">Consultar Período</ion-button>
+
+  <ion-list inset="true">
+    <ion-item-sliding>
+
+      <ion-item>
+        <ion-datetime display-format="DD/MMM/YY" value="{{date}}"
+        month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+        disables="true">
+        </ion-datetime>
+      </ion-item>
+      
+      <ion-item>
+          <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+          <fa-icon [icon]="['fas', 'circle']" size="xs"></fa-icon>
+        <ion-text>&nbsp;{{text}}</ion-text>
+      </ion-item>
+
+      <ion-item>
+          <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+          <fa-icon [icon]="['far', 'circle']" size="xs"></fa-icon>
+          <ion-text>&nbsp;Esse é um evento</ion-text>
+        </ion-item>
+
+      <ion-item>
+        <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+        <fa-icon [icon]="['fas', 'minus']" size="xs"></fa-icon>
+        <ion-text>&nbsp;Esse é um comentário</ion-text>
+      </ion-item>
+      
+      <ion-item>
+          <ion-button shape="round" slot="end" (click)="createdailylog()">+</ion-button>
+      </ion-item>
+      
+    </ion-item-sliding>
+  
+    <ion-item-sliding>
+
+      <ion-item>
+        <ion-datetime display-format="DD/MMM/YY" value="{{date2}}"
+        month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+        disables="true">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+        <fa-icon [icon]="['fas', 'times']" size="sm"></fa-icon>
+        <ion-text>&nbsp;{{text2}}</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="arrow-forward"></ion-icon>
+        <ion-text>Tarefa postponed</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-text>Tarefa future log</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+        <ion-text>&nbsp;</ion-text>
+        <ion-text>&nbsp;Tarefa abandonada</ion-text>
+      </ion-item>
+
+      <ion-item>
+          <ion-button shape="round" slot="end">+</ion-button>
+      </ion-item>
+
+    </ion-item-sliding>
+
+  </ion-list>
+
 </ion-content>
