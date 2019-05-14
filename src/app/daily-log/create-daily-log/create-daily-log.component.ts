@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController, NavParams, ToastController } from '@ionic/angular';
 import { DailyLogService } from '../daily-log.service';
-import { DailyLog } from 'src/app/daily-log';
+import { DailyLog } from '../daily-log';
 
 @Component({
   selector: 'app-create-daily-log',
