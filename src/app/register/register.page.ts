@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { LoginService } from './login.service';
+import { RegisterService } from './register.service';
 
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
 
-  accessToken: string = "";
   typepass: string = "password";
   clickp: number = 0;
+  accessToken: string = "";
 
   constructor(private storage: Storage,
-    private loginService: LoginService,
+    private registerService: RegisterService,
     private router: Router) { }
 
   ngOnInit() {
@@ -30,6 +30,13 @@ export class LoginPage implements OnInit {
     )
   }
 
+  register(form) {
+    this.accessToken=this.registerService.retToken(form);
+    this.storage.set('BuJoToken',this.accessToken);
+    // Redirecionar, pois o usuário já possui accessToken
+    this.router.navigate(['home']);
+  }
+
   showPass() {
     if (this.clickp==0) {
       this.typepass="text";
@@ -39,12 +46,4 @@ export class LoginPage implements OnInit {
       this.clickp=0;
     }
   }
-
-  login(form){
-     this.accessToken=this.loginService.retToken(form);
-     this.storage.set('BuJoToken',this.accessToken);
-     // Redirecionar, pois o usuário já possui accessToken
-     this.router.navigate(['home']);
-  }
-
 }
