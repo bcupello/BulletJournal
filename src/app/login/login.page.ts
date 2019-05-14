@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { LoginService } from './login.service';
 
 import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,20 +12,22 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage implements OnInit {
 
-  sto: string = "teste";
+  accessToken: string = "";
   typepass: string = "password";
   clickp: number = 0;
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: Storage,
+    private loginService: LoginService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.storage.set('age', this.sto);
-  }
-
-  changeText() {
-    this.storage.get('age').then((val) => {
-      console.log('Your age is', val);
-    });
+    this.storage.get('BuJoToken').then(
+      (val) => {
+        this.accessToken=val;
+        // Redirecionar, pois o usuário já possui accessToken
+        this.router.navigate(['home']);
+      }
+    )
   }
 
   showPass() {
@@ -35,8 +40,11 @@ export class LoginPage implements OnInit {
     }
   }
 
-  register(form){
-    console.log("foi");
+  login(form){
+     this.accessToken=this.loginService.retToken(form);
+     this.storage.set('BuJoToken',this.accessToken);
+     // Redirecionar, pois o usuário já possui accessToken
+     this.router.navigate(['home']);
   }
 
 }
