@@ -9,30 +9,22 @@ import { DailyLog } from 'src/app/daily-log';
   styleUrls: ['./create-daily-log.component.scss'],
 })
 
-
 export class CreateDailyLogComponent implements OnInit {
 
   popover: PopoverController;
   log: DailyLog;
   toastCtrl: ToastController;
   
-
   constructor(private dailyLogService: DailyLogService, navParams: NavParams, public toastController: ToastController) { 
     this.popover = navParams.get('popoverController');
-    this.log = { date: "2019-05-11", signifier: "", text: "" };
-    
-    
+    this.log = { key: "", date: "", signifier: "", text: "", status: ""};
+    this.log.date = navParams.get('date');
   }
-
 
   ngOnInit() {
   }
 
   async createDailyLog(log: DailyLog){
-
-    
-
-    
 
     const check:boolean = this.dailyLogService.createDailyLogService(log);
     if(check==true){

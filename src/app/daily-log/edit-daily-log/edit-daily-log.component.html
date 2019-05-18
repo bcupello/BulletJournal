@@ -1,0 +1,104 @@
+<ion-item>
+  <ion-label>
+    Editando
+  </ion-label>
+</ion-item>
+
+<ion-datetime [(ngModel)]="newLog.date" name="date" display-format="DD/MMM/YY"
+month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+cancel-text="Cancelar"
+done-text="Confirmar"
+readonly="true"
+>
+</ion-datetime>
+
+<ion-select [(ngModel)]="newLog.signifier" name="signifier" placeholder=string(this.originalLog.signifier) cancel-text="Cancelar" ok-text="Salvar">
+  <ion-select-option value="t">Tarefa</ion-select-option>
+  <ion-select-option value="e">Evento</ion-select-option>
+  <ion-select-option value="n">Anotação</ion-select-option>
+</ion-select>
+
+<ion-input [(ngModel)]="newLog.text" name="text" placeholder="Descrição"></ion-input>
+
+<ion-item>
+  <ion-button (click)="editDailyLog(log)">Salvar</ion-button>
+  <ion-button (click)="dismiss()">Cancelar</ion-button>
+</ion-item>
+
+<div *ngIf="newLog.signifier == 't'; then taskBlock "></div>
+
+<ng-template #taskBlock>
+
+  <div *ngIf="newLog.status == 'a'; then activeBlock else notActiveBlock"></div>
+
+  <ng-template #activeBlock>
+
+    <ion-item>
+      <ion-button (click)="toDoneDailyLog(log)">Marcar Como Feita</ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-button (click)="toNotDoingDailyLog(log)">Não Fazer Mais</ion-button>
+    </ion-item>
+
+    <div *ngIf="postponeClicked == 0; then showPostponeBlock else chooseDateBlock"></div>
+
+    <ng-template #showPostponeBlock>
+
+      <ion-item>
+        <ion-button expand= "block" (click)="postponeClicked=1">Adiar Para <br> Monthly Log Posterior</ion-button>
+      </ion-item>
+
+    </ng-template>
+
+    <ng-template #chooseDateBlock>
+
+      
+        <ion-datetime display-format="MMM/YY" value= "{{newLog.date}}"
+        month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+        cancel-text="Cancelar"
+        done-text="Confirmar"
+        min="{{newLog.date}}"
+        max="2020"
+        >
+        </ion-datetime>
+      
+
+      <ion-item>
+        <ion-button (click)="postponeDailyLog(log)">Adiar</ion-button>
+        <ion-button (click)="postponeClicked=0">Não Adiar</ion-button>
+      </ion-item>
+
+    </ng-template>
+
+    <ion-item>
+      <ion-button (click)="toFutureLogDailyLog(log)">Mandar Para Future Log</ion-button>
+    </ion-item>
+
+  </ng-template>
+
+  <ng-template #notActiveBlock>
+
+    <div *ngIf="newLog.status == 'd'; then doneBlock"></div>
+
+    <ng-template #doneBlock>
+
+      <ion-item>
+        <ion-button (click)="toBeDoneDailyLog(log)">Marcar Como Não Feito</ion-button>
+      </ion-item>
+
+    </ng-template>
+
+    <div *ngIf="newLog.status == 'i'; then irrelevantBlock"></div>
+
+    <ng-template #irrelevantBlock>
+
+      <ion-item>
+        <ion-button (click)="toDoingAgainDailyLog(log)">Voltar a Fazer</ion-button>
+      </ion-item>
+
+    </ng-template>
+
+  </ng-template>
+
+</ng-template>

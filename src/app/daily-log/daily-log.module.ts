@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { DailyLogPage } from './daily-log.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CreateDailyLogComponent } from './create-daily-log/create-daily-log.component';
+import { EditDailyLogComponent } from './edit-daily-log/edit-daily-log.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FontAwesomeModule
   ],
-  entryComponents: [CreateDailyLogComponent],
-  declarations: [DailyLogPage, CreateDailyLogComponent]
+  entryComponents: [CreateDailyLogComponent, EditDailyLogComponent],
+  declarations: [DailyLogPage, CreateDailyLogComponent, EditDailyLogComponent]  
 })
 export class DailyLogPageModule {}

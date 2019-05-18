@@ -1,4 +1,3 @@
-
 <ion-datetime [(ngModel)]="log.date" name="date" display-format="DD/MMM/YY"
 month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
 cancel-text="Cancelar"
@@ -13,6 +12,7 @@ done-text="Confirmar"
 </ion-select>
 
 <ion-input [(ngModel)]="log.text" name="text" placeholder="Descrição"></ion-input>
+
 <ion-item>
   <ion-button (click)="createDailyLog(log)">Salvar</ion-button>
   <ion-button (click)="dismiss()">Cancelar</ion-button>

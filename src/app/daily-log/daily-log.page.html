@@ -14,7 +14,7 @@
   <ion-item>
 
     <ion-label>De</ion-label>
-    <ion-datetime display-format="DD/MMM/YY" value="2019-05-11"
+    <ion-datetime display-format="DD/MMM/YY" value= "{{today | date:'EEEE dd MMMM yyyy'}}"
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
     done-text="Confirmar"
@@ -22,7 +22,7 @@
     </ion-datetime>
 
     <ion-label>até</ion-label>
-    <ion-datetime display-format="DD/MMM/YY" value="2019-05-11"
+    <ion-datetime display-format="DD/MMM/YY" value="{{today | date:'EEEE dd MMMM yyyy'}}"
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
     done-text="Confirmar"
@@ -34,72 +34,122 @@
   <ion-button expand="full" shape="round">Consultar Período</ion-button>
 
   <ion-list inset="true">
-    <ion-item-sliding>
+
+    <ion-item-sliding *ngFor="let dailyLogDay of dailyLogDays">
 
       <ion-item>
-        <ion-datetime display-format="DD/MMM/YY" value="{{date}}"
+        <ion-datetime display-format="DD/MMM/YY" value="{{dailyLogDay.date}}"
         month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
-        disables="true">
+        readonly="true">
         </ion-datetime>
       </ion-item>
-      
-      <ion-item>
-          <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
-          <fa-icon [icon]="['fas', 'circle']" size="xs"></fa-icon>
-        <ion-text>&nbsp;{{text}}</ion-text>
-      </ion-item>
 
-      <ion-item>
-          <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
-          <fa-icon [icon]="['far', 'circle']" size="xs"></fa-icon>
-          <ion-text>&nbsp;Esse é um evento</ion-text>
-        </ion-item>
+      <ion-item *ngFor="let dailyLog of dailyLogDay.dailyLogs" (click)="editDailylog(dailyLog)" >
 
-      <ion-item>
-        <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
-        <fa-icon [icon]="['fas', 'minus']" size="xs"></fa-icon>
-        <ion-text>&nbsp;Esse é um comentário</ion-text>
-      </ion-item>
-      
-      <ion-item>
-          <ion-button shape="round" slot="end" (click)="createdailylog()">+</ion-button>
-      </ion-item>
-      
-    </ion-item-sliding>
+        <div *ngIf="dailyLog.signifier == 't'; then taskBlock else noTaskBlock"></div>
+
+        <ng-template #taskBlock>
+
+          <div *ngIf="dailyLog.status == 'a'; then activeBlock else notActiveBlock"></div>
+
+          <ng-template #activeBlock>
+
+            <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+            <fa-icon [icon]="['fas', 'circle']" size="xs"></fa-icon>
+            <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
   
-    <ion-item-sliding>
+          </ng-template>
 
-      <ion-item>
-        <ion-datetime display-format="DD/MMM/YY" value="{{date2}}"
-        month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
-        disables="true">
-        </ion-datetime>
+          <ng-template #notActiveBlock>
+
+            <div *ngIf="dailyLog.status == 'd'; then doneBlock else notDoneBlock"></div>
+
+            <ng-template #doneBlock>
+  
+                <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+                <fa-icon [icon]="['fas', 'times']" size="sm"></fa-icon>
+                <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+    
+            </ng-template>
+  
+            <ng-template #notDoneBlock>
+  
+              <div *ngIf="dailyLog.status == 'p'; then postponedBlock else notPostponedBlock"></div>
+
+              <ng-template #postponedBlock>
+    
+                <ion-icon name="arrow-forward"></ion-icon>
+                <ion-text>{{dailyLog.text}}</ion-text>
+      
+              </ng-template>
+    
+              <ng-template #notPostponedBlock>
+    
+                <div *ngIf="dailyLog.status == 'f'; then futureBlock else notFutureBlock"></div>
+
+                <ng-template #futureBlock>
+      
+                  <ion-icon name="arrow-back"></ion-icon>
+                  <ion-text>{{dailyLog.text}}</ion-text>
+        
+                </ng-template>
+      
+                <ng-template #notFutureBlock>
+      
+                  <div *ngIf="dailyLog.status == 'i'; then irrelevantBlock else notIrrelevantBlock"></div>
+
+                  <ng-template #irrelevantBlock>
+        
+                    <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+                    <ion-text>&nbsp;</ion-text>
+                    <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+          
+                  </ng-template>
+        
+                  <ng-template #notIrrelevantBlock>
+        
+                    <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+                    <fa-icon [icon]="['fas', 'minus']" size="xs"></fa-icon>
+                    <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+        
+                  </ng-template>
+      
+                </ng-template>
+    
+              </ng-template>
+  
+            </ng-template>
+
+          </ng-template>
+
+        </ng-template>
+
+        <ng-template #noTaskBlock>
+
+          <div *ngIf="dailyLog.signifier == 'e'; then eventBlock else noteBlock"></div>
+
+          <ng-template #eventBlock>
+
+            <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+            <fa-icon [icon]="['far', 'circle']" size="xs"></fa-icon>
+            <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+  
+          </ng-template>
+
+          <ng-template #noteBlock>
+
+            <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
+            <fa-icon [icon]="['fas', 'minus']" size="xs"></fa-icon>
+            <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+
+          </ng-template>
+    
+        </ng-template>
+
       </ion-item>
 
       <ion-item>
-        <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
-        <fa-icon [icon]="['fas', 'times']" size="sm"></fa-icon>
-        <ion-text>&nbsp;{{text2}}</ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="arrow-forward"></ion-icon>
-        <ion-text>Tarefa postponed</ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="arrow-back"></ion-icon>
-        <ion-text>Tarefa future log</ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
-        <ion-text>&nbsp;</ion-text>
-        <ion-text>&nbsp;Tarefa abandonada</ion-text>
-      </ion-item>
-
-      <ion-item>
-          <ion-button shape="round" slot="end">+</ion-button>
+          <ion-button shape="round" slot="end" (click)="createDailylog(dailyLogDay.date)">+</ion-button>
       </ion-item>
 
     </ion-item-sliding>
