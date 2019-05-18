@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DailyLog } from 'src/app/daily-log'
+import { DailyLog } from './daily-log';
 
 
 @Injectable({

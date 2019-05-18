@@ -30,11 +30,11 @@ const routes: Routes = [
   {
     path: 'daily-log',
     loadChildren: './daily-log/daily-log.module#DailyLogPageModule'
+  },
+  {
+    path: 'register',
+    loadChildren: './register/register.module#RegisterPageModule'
   }
-  // ,
-  // { path: 'edit-daily-log', 
-  // loadChildren: './edit-daily-log/edit-daily-log.module#EditDailyLogPageModule' }
-
 ];
 
 @NgModule({
