@@ -3,8 +3,8 @@ import { DailyLogService } from './daily-log.service';
 import { CreateDailyLogComponent } from './create-daily-log/create-daily-log.component';
 import { EditDailyLogComponent } from './edit-daily-log/edit-daily-log.component';
 import { PopoverController } from '@ionic/angular';
-import { DailyLog } from '../daily-log';
-import { DailyLogDay } from '../daily-log-day';
+import { DailyLog } from './daily-log';
+import { DailyLogDay } from './daily-log-day';
 
 @Component({
   selector: 'app-daily-log',
