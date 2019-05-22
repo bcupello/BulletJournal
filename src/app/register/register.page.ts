@@ -4,6 +4,8 @@ import { RegisterService } from './register.service';
 
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { Register } from './register';
+import { RegisterResponse } from './register-response';
 
 @Component({
   selector: 'app-register',
@@ -25,16 +27,9 @@ export class RegisterPage implements OnInit {
       (val) => {
         this.accessToken=val;
         // Redirecionar, pois o usuário já possui accessToken
-        this.router.navigate(['home']);
+        //this.router.navigate(['home']);
       }
     )
-  }
-
-  register(form) {
-    this.accessToken=this.registerService.retToken(form);
-    this.storage.set('BuJoToken',this.accessToken);
-    // Redirecionar, pois o usuário já possui accessToken
-    this.router.navigate(['home']);
   }
 
   showPass() {
@@ -46,4 +41,24 @@ export class RegisterPage implements OnInit {
       this.clickp=0;
     }
   }
+
+  register(form) {
+    let register = new Register(form.value);
+    this.registerService.regUser(register).subscribe(
+      (obj) => {
+        var res = new RegisterResponse();
+        Object.assign(res,obj);
+        if (res.Status > 199 && res.Status < 300) {
+          this.accessToken = res.User.Access_token;
+          //this.storage.set('BuJoToken',this.accessToken);
+          // Redirecionar, pois o usuário já possui accessToken
+          //this.router.navigate(['home']);
+        } else {
+          // Cadastro errado
+        }
+      }
+    );
+    
+  }
+  
 }
