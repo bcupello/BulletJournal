@@ -4,6 +4,8 @@ import { LoginService } from './login.service';
 
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { Login } from './login';
+import { LoginResponse } from './login-response';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,7 @@ export class LoginPage implements OnInit {
       (val) => {
         this.accessToken=val;
         // Redirecionar, pois o usuário já possui accessToken
-        this.router.navigate(['home']);
+        //this.router.navigate(['home']);
       }
     )
   }
@@ -41,10 +43,21 @@ export class LoginPage implements OnInit {
   }
 
   login(form){
-     this.accessToken=this.loginService.retToken(form);
-     this.storage.set('BuJoToken',this.accessToken);
-     // Redirecionar, pois o usuário já possui accessToken
-     this.router.navigate(['home']);
+    let login = new Login(form.value);
+    this.loginService.logUser(login).subscribe(
+      (obj) => {
+        var res = new LoginResponse();
+        Object.assign(res,obj);
+        if (res.Status > 199 && res.Status < 300) {
+          this.accessToken = res.AccessToken;
+          //this.storage.set('BuJoToken',this.accessToken);
+          // Redirecionar, pois o usuário já possui accessToken
+          //this.router.navigate(['home']);
+        } else {
+          // Login errado
+        }
+      }
+    );
   }
 
 }
