@@ -6,6 +6,8 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { Login } from './login';
 import { LoginResponse } from './login-response';
+import { PopoverController } from '@ionic/angular';
+import { WrongLoginComponent } from './wrong-login/wrong-login.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ export class LoginPage implements OnInit {
 
   constructor(private storage: Storage,
     private loginService: LoginService,
-    private router: Router) { }
+    private router: Router,
+    private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
     this.storage.get('BuJoToken').then(
@@ -42,6 +45,16 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async wrongLog() {
+    const popover = await this.popoverCtrl.create({
+      component: WrongLoginComponent,
+      animated: true,
+      showBackdrop: true,
+      componentProps: { popoverCtrl: this.popoverCtrl }
+    });
+    await popover.present();
+  }
+
   login(form){
     let login = new Login(form.value);
     this.loginService.logUser(login).subscribe(
@@ -58,6 +71,8 @@ export class LoginPage implements OnInit {
           
         } else if (res.Status == 400) { // Login errado
           // Login errado
+          // Cadastro não existe ou senha incorreta
+          this.wrongLog();
           
         } else {
           // Erro

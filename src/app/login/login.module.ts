@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { LoginPage } from './login.page';
+import { WrongLoginComponent } from './wrong-login/wrong-login.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LoginPage]
+  entryComponents: [WrongLoginComponent],
+  declarations: [LoginPage, WrongLoginComponent]
 })
 export class LoginPageModule {}
