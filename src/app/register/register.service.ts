@@ -15,7 +15,7 @@ export class RegisterService {
   // Faz registro de usuário
   regUser(formValues: Register): Observable<Object> {
     const headers = new HttpHeaders().set("Content-Type","application/json");
-    let api = new Api();
+    const api = new Api();
     return this.http.put(api.url+'login', formValues, {headers});
   }
 }

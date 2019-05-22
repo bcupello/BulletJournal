@@ -48,13 +48,19 @@ export class RegisterPage implements OnInit {
       (obj) => {
         var res = new RegisterResponse();
         Object.assign(res,obj);
-        if (res.Status > 199 && res.Status < 300) {
+        
+        // Cadastro errado
+        if (res.Status == 201) {
           this.accessToken = res.User.Access_token;
-          //this.storage.set('BuJoToken',this.accessToken);
+          this.storage.set('BuJoToken',this.accessToken);
           // Redirecionar, pois o usuário já possui accessToken
           //this.router.navigate(['home']);
-        } else {
+        
+        } else if (res.Status == 500) { // Cadastro errado
           // Cadastro errado
+          
+        } else {
+          // Erro
         }
       }
     );
