@@ -16,7 +16,7 @@ export class LoginService {
   // Loga Usuário
   logUser(formValues: Login): Observable<Object> {
     const headers = new HttpHeaders().set("Content-Type","application/json");
-    let api = new Api();
+    const api = new Api();
     return this.http.post(api.url+'login', formValues, {headers});
   }
 

@@ -48,13 +48,19 @@ export class LoginPage implements OnInit {
       (obj) => {
         var res = new LoginResponse();
         Object.assign(res,obj);
-        if (res.Status > 199 && res.Status < 300) {
+
+        // Login correto
+        if (res.Status == 200) {
           this.accessToken = res.AccessToken;
-          //this.storage.set('BuJoToken',this.accessToken);
+          this.storage.set('BuJoToken',this.accessToken);
           // Redirecionar, pois o usuário já possui accessToken
           //this.router.navigate(['home']);
-        } else {
+          
+        } else if (res.Status == 400) { // Login errado
           // Login errado
+          
+        } else {
+          // Erro
         }
       }
     );
