@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FutureLogService } from './future-log.service';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-future-log',
@@ -8,11 +10,31 @@ import { FutureLogService } from './future-log.service';
 })
 export class FutureLogPage implements OnInit {
 
-	text: string = 'World';
+  text: string = 'World';
+  private accessToken:string = "";
 
-  constructor(private futureLogService: FutureLogService) { }
+  constructor(private futureLogService: FutureLogService,
+    private storage:Storage,
+    private router:Router) { }
 
   ngOnInit() {
+    this.storage.get('BuJoToken').then(
+      (val) => {
+        this.accessToken = val;
+        if (this.accessToken == '') {
+          this.router.navigate(['login']);
+        }
+      }
+    ).catch(
+      () => {
+        this.router.navigate(['login']);
+      }
+    );
+  }
+
+  logout() {
+    this.storage.set('BuJoToken','');
+    this.router.navigate(['login']);
   }
 
   changeText() {
