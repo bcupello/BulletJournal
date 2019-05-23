@@ -6,7 +6,7 @@ import { Login } from './login';
 import { LoginResponse } from './login-response';
 import { PopoverController } from '@ionic/angular';
 import { WrongLoginComponent } from './wrong-login/wrong-login.component';
-import { ErrorComponent } from '../error/error.component';
+import { ErrorComponent } from '../components/error/error.component';
 
 @Component({
   selector: 'app-login',
@@ -64,6 +64,10 @@ export class LoginPage implements OnInit {
       componentProps: { popoverCtrl: this.popoverCtrl }
     });
     await popover.present();
+  }
+
+  register() {
+    this.router.navigate(['register']);
   }
 
   login(form){
