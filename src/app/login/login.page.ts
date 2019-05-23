@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
       (val) => {
         this.accessToken=val;
         // Redirecionar, pois o usuário já possui accessToken
-        //this.router.navigate(['home']);
+        this.router.navigate(['home']);
       }
     )
   }
@@ -80,7 +80,7 @@ export class LoginPage implements OnInit {
           this.accessToken = res.AccessToken;
           this.storage.set('BuJoToken',this.accessToken);
           // Redirecionar, pois o usuário já possui accessToken
-          //this.router.navigate(['home']);
+          this.router.navigate(['home']);
           
         } else if (res.Status == 400) { // Login errado
           // Login errado

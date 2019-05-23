@@ -31,7 +31,7 @@ export class RegisterPage implements OnInit {
       (val) => {
         this.accessToken=val;
         // Redirecionar, pois o usuário já possui accessToken
-        //this.router.navigate(['home']);
+        this.router.navigate(['home']);
       }
     )
   }
@@ -80,7 +80,7 @@ export class RegisterPage implements OnInit {
           this.accessToken = res.User.Access_token;
           this.storage.set('BuJoToken',this.accessToken);
           // Redirecionar, pois o usuário já possui accessToken
-          //this.router.navigate(['home']);
+          this.router.navigate(['home']);
         
         } else if (res.Status == 500) { // Cadastro errado
           // Cadastro errado
