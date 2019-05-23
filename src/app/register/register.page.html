@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Register</ion-title>
+    <ion-buttons slot="end">
+        <ion-icon name="arrow-round-forward" (click)="logout()"></ion-icon>
+        &nbsp;
+        <div (click)="login()">Login</div>
+        &nbsp;
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

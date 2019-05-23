@@ -4,9 +4,9 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { Register } from './register';
 import { RegisterResponse } from './register-response';
-import { ErrorComponent } from '../error/error.component';
 import { PopoverController } from '@ionic/angular';
 import { WrongRegisterComponent } from './wrong-register/wrong-register.component';
+import { ErrorComponent } from '../components/error/error.component';
 
 @Component({
   selector: 'app-register',
@@ -64,6 +64,10 @@ export class RegisterPage implements OnInit {
       componentProps: { popoverCtrl: this.popoverCtrl }
     });
     await popover.present();
+  }
+
+  login() {
+    this.router.navigate(['login']);
   }
 
   register(form) {
