@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from './login.service';
 
@@ -8,6 +8,7 @@ import { Login } from './login';
 import { LoginResponse } from './login-response';
 import { PopoverController } from '@ionic/angular';
 import { WrongLoginComponent } from './wrong-login/wrong-login.component';
+import { ErrorComponent } from '../error/error.component';
 
 @Component({
   selector: 'app-login',
@@ -55,12 +56,24 @@ export class LoginPage implements OnInit {
     await popover.present();
   }
 
+  async error() {
+    const popover = await this.popoverCtrl.create({
+      component: ErrorComponent,
+      animated: true,
+      showBackdrop: true,
+      componentProps: { popoverCtrl: this.popoverCtrl }
+    });
+    await popover.present();
+  }
+
   login(form){
     let login = new Login(form.value);
+    let flag = 0;
     this.loginService.logUser(login).subscribe(
       (obj) => {
         var res = new LoginResponse();
         Object.assign(res,obj);
+        flag = 1;
 
         // Login correto
         if (res.Status == 200) {
@@ -76,9 +89,14 @@ export class LoginPage implements OnInit {
           
         } else {
           // Erro
+          this.error();
         }
       }
     );
+    // Erro
+    if (flag == 0) {
+      this.error();
+    }
   }
 
 }
