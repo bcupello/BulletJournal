@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { RegisterService } from './register.service';
-
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { Register } from './register';
@@ -30,8 +28,10 @@ export class RegisterPage implements OnInit {
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken=val;
-        // Redirecionar, pois o usuário já possui accessToken
-        this.router.navigate(['home']);
+        if (this.accessToken != '') {
+          // Redirecionar, pois o usuário já possui accessToken
+          this.router.navigate(['home']);
+        }
       }
     )
   }
@@ -68,19 +68,19 @@ export class RegisterPage implements OnInit {
 
   register(form) {
     let register = new Register(form.value);
-    let flag = 0;
-    this.registerService.regUser(register).subscribe(
+    this.registerService.regUser(register).toPromise().then(
       (obj) => {
         var res = new RegisterResponse();
         Object.assign(res,obj);
-        flag = 1;
         
         // Cadastro correto
         if (res.Status == 201) {
           this.accessToken = res.User.Access_token;
           this.storage.set('BuJoToken',this.accessToken);
-          // Redirecionar, pois o usuário já possui accessToken
-          this.router.navigate(['home']);
+          if (this.accessToken != '') {
+            // Redirecionar, pois o usuário já possui accessToken
+            this.router.navigate(['home']);
+          }
         
         } else if (res.Status == 500) { // Cadastro errado
           // Cadastro errado
@@ -89,14 +89,16 @@ export class RegisterPage implements OnInit {
           
         } else {
           // Erro
+          console.log('dentro do else');
           this.error();
         }
       }
-    );
-    // Erro
-    if (flag == 0) {
-      this.error();
-    }
+    ).catch (
+      () => {
+        // Erro
+        this.error();
+      }
+    )
     
   }
   

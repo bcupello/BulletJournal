@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { LoginService } from './login.service';
-
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { Login } from './login';
@@ -30,8 +28,10 @@ export class LoginPage implements OnInit {
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken=val;
-        // Redirecionar, pois o usuário já possui accessToken
-        this.router.navigate(['home']);
+        if (this.accessToken != '') {
+          // Redirecionar, pois o usuário já possui accessToken
+          this.router.navigate(['home']);
+        }
       }
     )
   }
@@ -68,12 +68,10 @@ export class LoginPage implements OnInit {
 
   login(form){
     let login = new Login(form.value);
-    let flag = 0;
-    this.loginService.logUser(login).subscribe(
+    this.loginService.logUser(login).toPromise().then(
       (obj) => {
         var res = new LoginResponse();
         Object.assign(res,obj);
-        flag = 1;
 
         // Login correto
         if (res.Status == 200) {
@@ -92,11 +90,13 @@ export class LoginPage implements OnInit {
           this.error();
         }
       }
-    );
-    // Erro
-    if (flag == 0) {
-      this.error();
-    }
+    ).catch(
+      () => {
+        // Erro
+        this.error();
+      }
+    )
+
   }
 
 }
