@@ -6,6 +6,9 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { Register } from './register';
 import { RegisterResponse } from './register-response';
+import { ErrorComponent } from '../error/error.component';
+import { PopoverController } from '@ionic/angular';
+import { WrongRegisterComponent } from './wrong-register/wrong-register.component';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +23,8 @@ export class RegisterPage implements OnInit {
 
   constructor(private storage: Storage,
     private registerService: RegisterService,
-    private router: Router) { }
+    private router: Router,
+    private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
     this.storage.get('BuJoToken').then(
@@ -42,14 +46,36 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  async wrongReg() {
+    const popover = await this.popoverCtrl.create({
+      component: WrongRegisterComponent,
+      animated: true,
+      showBackdrop: true,
+      componentProps: { popoverCtrl: this.popoverCtrl }
+    });
+    await popover.present();
+  }
+
+  async error() {
+    const popover = await this.popoverCtrl.create({
+      component: ErrorComponent,
+      animated: true,
+      showBackdrop: true,
+      componentProps: { popoverCtrl: this.popoverCtrl }
+    });
+    await popover.present();
+  }
+
   register(form) {
     let register = new Register(form.value);
+    let flag = 0;
     this.registerService.regUser(register).subscribe(
       (obj) => {
         var res = new RegisterResponse();
         Object.assign(res,obj);
+        flag = 1;
         
-        // Cadastro errado
+        // Cadastro correto
         if (res.Status == 201) {
           this.accessToken = res.User.Access_token;
           this.storage.set('BuJoToken',this.accessToken);
@@ -58,12 +84,19 @@ export class RegisterPage implements OnInit {
         
         } else if (res.Status == 500) { // Cadastro errado
           // Cadastro errado
+          // Email deve ser único
+          this.wrongReg();
           
         } else {
           // Erro
+          this.error();
         }
       }
     );
+    // Erro
+    if (flag == 0) {
+      this.error();
+    }
     
   }
   

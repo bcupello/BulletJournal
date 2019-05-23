@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { RegisterPage } from './register.page';
+import { ErrorComponent } from '../error/error.component';
+import { WrongRegisterComponent } from './wrong-register/wrong-register.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [RegisterPage]
+  entryComponents: [ErrorComponent, WrongRegisterComponent],
+  declarations: [RegisterPage, ErrorComponent, WrongRegisterComponent]
 })
 export class RegisterPageModule {}
