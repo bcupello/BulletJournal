@@ -71,7 +71,7 @@ export class RegisterPage implements OnInit {
     // });
     // await popover.present();
     const toast = await this.toastController.create({
-      message: "Error",
+      message: "Erro no servidor, tente novamente mais tarde",
       duration: 2000
     });
     toast.present();
