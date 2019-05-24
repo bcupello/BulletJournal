@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { Login } from './login';
 import { LoginResponse } from './login-response';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ToastController } from '@ionic/angular';
 import { WrongLoginComponent } from './wrong-login/wrong-login.component';
 import { ErrorComponent } from '../components/error/error.component';
 
@@ -22,7 +22,8 @@ export class LoginPage implements OnInit {
   constructor(private storage: Storage,
     private loginService: LoginService,
     private router: Router,
-    private popoverCtrl: PopoverController) { }
+    private popoverCtrl: PopoverController,
+    private toastController: ToastController) { }
 
   ngOnInit() {
     this.storage.get('BuJoToken').then(
@@ -47,23 +48,33 @@ export class LoginPage implements OnInit {
   }
 
   async wrongLog() {
-    const popover = await this.popoverCtrl.create({
-      component: WrongLoginComponent,
-      animated: true,
-      showBackdrop: true,
-      componentProps: { popoverCtrl: this.popoverCtrl }
+    // const popover = await this.popoverCtrl.create({
+    //   component: WrongLoginComponent,
+    //   animated: true,
+    //   showBackdrop: true,
+    //   componentProps: { popoverCtrl: this.popoverCtrl }
+    // });
+    // await popover.present();
+    const toast = await this.toastController.create({
+      message: "Cadastro não existe ou senha incorreta",
+      duration: 2000
     });
-    await popover.present();
+    toast.present();
   }
 
   async error() {
-    const popover = await this.popoverCtrl.create({
-      component: ErrorComponent,
-      animated: true,
-      showBackdrop: true,
-      componentProps: { popoverCtrl: this.popoverCtrl }
+    // const popover = await this.popoverCtrl.create({
+    //   component: ErrorComponent,
+    //   animated: true,
+    //   showBackdrop: true,
+    //   componentProps: { popoverCtrl: this.popoverCtrl }
+    // });
+    // await popover.present();
+    const toast = await this.toastController.create({
+      message: "Error",
+      duration: 2000
     });
-    await popover.present();
+    toast.present();
   }
 
   register() {
