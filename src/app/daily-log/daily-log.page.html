@@ -14,7 +14,7 @@
   <ion-item>
 
     <ion-label>De</ion-label>
-    <ion-datetime display-format="DD/MMM/YY" value= "{{today | date:'EEEE dd MMMM yyyy'}}"
+    <ion-datetime display-format="DD/MMM/YY" value= "{{today | date:'EEEE dd MMMM yyyy'}}" name= "date1"
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
     done-text="Confirmar"
@@ -22,7 +22,7 @@
     </ion-datetime>
 
     <ion-label>até</ion-label>
-    <ion-datetime display-format="DD/MMM/YY" value="{{today | date:'EEEE dd MMMM yyyy'}}"
+    <ion-datetime display-format="DD/MMM/YY" value="{{today | date:'EEEE dd MMMM yyyy'}}" name= "date2"
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
     done-text="Confirmar"
@@ -31,7 +31,7 @@
 
   </ion-item>
 
-  <ion-button expand="full" shape="round">Consultar Período</ion-button>
+  <ion-button expand="full" shape="round" (click)="requestDailylogdays(date1,date2)">Consultar Período</ion-button>
 
   <ion-list inset="true">
 
