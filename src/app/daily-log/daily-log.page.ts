@@ -122,14 +122,13 @@ export class DailyLogPage implements OnInit {
     return await popover.present();
   }
 
-<<<<<<< HEAD
   requestDailylogdays(date1: string, date2: string){
+
+  }
     
-=======
   logout() {
     this.storage.set('BuJoToken','');
     this.router.navigate(['login']);
->>>>>>> 95bc0ba6bc403bcf519cb709e7e0c2c36299befd
   }
 
 }
