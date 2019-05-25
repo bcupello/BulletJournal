@@ -4,7 +4,7 @@ export class Api {
 
     constructor() {
         // URL da API
-        this.url = 'https://8d108ae3.ngrok.io/';
+        this.url = 'https://8cf60cbc.ngrok.io/';
     }
 
 }

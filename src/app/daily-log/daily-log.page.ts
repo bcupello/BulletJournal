@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { DailyLogService } from './daily-log.service';
 import { CreateDailyLogComponent } from './create-daily-log/create-daily-log.component';
 import { EditDailyLogComponent } from './edit-daily-log/edit-daily-log.component';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ToastController } from '@ionic/angular';
 import { DailyLog } from './daily-log';
 import { DailyLogDay } from './daily-log-day';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { SelectionDays } from './selection-days';
+import { ErrorComponent } from '../components/error/error.component';
+import { DailyLogResponse } from './daily-log-response';
 
 @Component({
   selector: 'app-daily-log',
@@ -16,78 +19,23 @@ import { Router } from '@angular/router';
 
 export class DailyLogPage implements OnInit {
 
-  date:string;
-  signifier:string;
-  status:string;
-  today = new Date();
-  private accessToken:string = "";
-
-  dailyLogs1 = [
-    new DailyLog({
-      "key": "1",
-      "date": "2019-05-18",
-      "signifier": "t",
-      "text": "Tarefa ativa",
-      "status": "a"
-    }),
-    new DailyLog({
-      "key": "2",
-      "date": "2019-05-18",
-      "signifier": "e",
-      "text": "Esse é um evento",
-      "status": "a"
-    }),
-    new DailyLog({
-      "key": "3",
-      "date": "2019-05-18",
-      "signifier": "n",
-      "text": "Esse é um comentário",
-      "status": "a"
-    })
-  ];
-
-  dailyLogs2 = [
-    new DailyLog({
-      "key": "4",
-      "date": "2019-05-19",
-      "signifier": "t",
-      "text": "Tarefa concluída",
-      "status": "d"
-    }),
-    new DailyLog({
-      "key": "5",
-      "date": "2019-05-19",
-      "signifier": "t",
-      "text": "Tarefa postponed",
-      "status": "p"
-    }),
-    new DailyLog({
-      "key": "6",
-      "date": "2019-05-19",
-      "signifier": "t",
-      "text": "Tarefa future log",
-      "status": "f"
-    }),
-    new DailyLog({
-      "key": "7",
-      "date": "2019-05-19",
-      "signifier": "t",
-      "text": "Tarefa abandonada",
-      "status": "i"
-    })
-  ];
-
-  dailyLogDays = [
-    new DailyLogDay({"date": "2019-05-18", "dailyLogs": this.dailyLogs1}),
-    new DailyLogDay({"date": "2019-05-19", "dailyLogs": this.dailyLogs2})
-  ];
+  date:String;
+  signifier:String;
+  status:String;
+  day1:String = (new Date).toISOString().slice(0,10);
+  day2:String = (new Date).toISOString().slice(0,10);
+  selectionDays:SelectionDays = new SelectionDays({"day1": this.day1,"day2":this.day2});
+  private accessToken:String = "";
+  dailyLogDays:DailyLogDay[];
 
   constructor(private dailyLogService: DailyLogService,
     private popoverCtrl: PopoverController,
     private storage:Storage,
-    private router:Router) { }
+    private router:Router,
+    private toastController: ToastController) {}
 
   ngOnInit() {
+    this.dailyLogDays = this.dailyLogService.getDailyLogDays(this.selectionDays);
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken = val;
@@ -100,6 +48,22 @@ export class DailyLogPage implements OnInit {
         this.router.navigate(['login']);
       }
     );
+  }
+
+  async error() {
+    const toast = await this.toastController.create({
+      message: "Erro no servidor, tente novamente mais tarde",
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async wrongLog() {
+    const toast = await this.toastController.create({
+      message: "Cadastro não existe ou senha incorreta",
+      duration: 2000
+    });
+    toast.present();
   }
 
   async createDailylog(date:string) {
@@ -122,8 +86,36 @@ export class DailyLogPage implements OnInit {
     return await popover.present();
   }
 
-  requestDailylogdays(date1: string, date2: string){
+  requestDailylogdays(selectionDays:SelectionDays){
+    this.dailyLogDays = this.dailyLogService.getDailyLogDays(selectionDays);
+    // const obj = await this.dailyLogService.getDailyLogDays(selectionDays);
+    // obj.then((obj) => {
+    //   console.log('teste');
+    //     var res = new DailyLogResponse();
+    //     Object.assign(res,obj);
 
+    //     // Login correto
+    //     if (res.Status == 200) {
+    //       this.accessToken = res.NewAccessToken;
+    //       this.storage.set('BuJoToken',this.accessToken);
+    //       this.dailyLogDays = res.DailyLogDays;
+          
+    //     } else if (res.Status == 400) { // Login errado
+    //       // Login errado
+    //       // Cadastro não existe ou senha incorreta
+    //       this.wrongLog();
+          
+    //     } else {
+    //       // Erro
+    //       this.error();
+    //     }
+    //   }
+    // ).catch(
+    //   () => {
+    //     // Erro
+    //     this.error();
+    //   }
+    // );
   }
     
   logout() {

@@ -1,17 +1,18 @@
 import { DailyLog } from './daily-log';
 
 export class DailyLogDay {
-	date: string;
-	dailyLogs: DailyLog[];
+	Date: string;
+	DailyLogs: DailyLog[];
 
 	constructor(options?: {date: string; dailyLogs: DailyLog[]}){
     if (options) {
-      this.date = options.date;
-      this.dailyLogs = options.dailyLogs;
+      console.log('weeee');
+      this.Date = options.date;
+      this.DailyLogs = options.dailyLogs;
     }
     else{
-      this.date = "";
-      this.dailyLogs = [];
+      this.Date = "";
+      this.DailyLogs = [];
     }
   }
 }

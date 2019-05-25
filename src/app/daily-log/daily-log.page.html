@@ -20,7 +20,7 @@
   <ion-item>
 
     <ion-label>De</ion-label>
-    <ion-datetime display-format="DD/MMM/YY" value= "{{today | date:'EEEE dd MMMM yyyy'}}" name= "date1"
+    <ion-datetime [(ngModel)]="selectionDays.day1" name= "d1" display-format="DD/MMM/YYYY" value= "{{selectionDays.day1}}" max= "2020"  
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
     done-text="Confirmar"
@@ -28,7 +28,7 @@
     </ion-datetime>
 
     <ion-label>até</ion-label>
-    <ion-datetime display-format="DD/MMM/YY" value="{{today | date:'EEEE dd MMMM yyyy'}}" name= "date2"
+    <ion-datetime [(ngModel)]="selectionDays.day2" name= "d2" display-format="DD/MMM/YYYY" value= "{{selectionDays.day2}}" max= "2020"
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
     done-text="Confirmar"
@@ -37,20 +37,20 @@
 
   </ion-item>
 
-  <ion-button expand="full" shape="round" (click)="requestDailylogdays(date1,date2)">Consultar Período</ion-button>
+  <ion-button expand="full" shape="round" (click)="requestDailylogdays(selectionDays)">Consultar Período</ion-button>
 
   <ion-list inset="true">
 
     <ion-item-sliding *ngFor="let dailyLogDay of dailyLogDays">
 
       <ion-item>
-        <ion-datetime display-format="DD/MMM/YY" value="{{dailyLogDay.date}}"
+        <ion-datetime display-format="DD/MMM/YY" value="{{dailyLogDay.Date}}"
         month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
         readonly="true">
         </ion-datetime>
       </ion-item>
 
-      <ion-item *ngFor="let dailyLog of dailyLogDay.dailyLogs" (click)="editDailylog(dailyLog)" >
+      <ion-item *ngFor="let dailyLog of dailyLogDay.DailyLogs" (click)="editDailylog(dailyLog)" >
 
         <div *ngIf="dailyLog.signifier == 't'; then taskBlock else noTaskBlock"></div>
 
