@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Register</ion-title>
+    <ion-buttons slot="end" class="pointer">
+        <ion-icon name="arrow-round-forward" (click)="logout()"></ion-icon>
+        &nbsp;
+        <div (click)="login()">Login</div>
+        &nbsp;
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -17,14 +23,14 @@
               <ion-input name="email" type="email" placeholder="your@email.com" ngModel required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="pass" type="{{typepass}}" placeholder="Password" ngModel required></ion-input>
+              <ion-input name="password" type="{{typepass}}" placeholder="Password" ngModel required></ion-input>
               <ion-icon name="eye" (click)="showPass()"></ion-icon>
             </ion-item>
             <ion-item>
-              <ion-input  name="nome" type="text" placeholder="Nome" ngModel required></ion-input>
+              <ion-input  name="name" type="text" placeholder="Nome" ngModel required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input  name="sobrenome" type="text" placeholder="Sobrenome" ngModel required></ion-input>
+              <ion-input  name="surname" type="text" placeholder="Sobrenome" ngModel required></ion-input>
             </ion-item>
           </div>
           <div padding>

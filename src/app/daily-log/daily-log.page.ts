@@ -5,6 +5,8 @@ import { EditDailyLogComponent } from './edit-daily-log/edit-daily-log.component
 import { PopoverController } from '@ionic/angular';
 import { DailyLog } from './daily-log';
 import { DailyLogDay } from './daily-log-day';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-daily-log',
@@ -18,6 +20,7 @@ export class DailyLogPage implements OnInit {
   signifier:string;
   status:string;
   today = new Date();
+  private accessToken:string = "";
 
   dailyLogs1 = [
     new DailyLog({
@@ -79,9 +82,24 @@ export class DailyLogPage implements OnInit {
     new DailyLogDay({"date": "2019-05-19", "dailyLogs": this.dailyLogs2})
   ];
 
-  constructor(private dailyLogService: DailyLogService, private popoverCtrl: PopoverController) { }
+  constructor(private dailyLogService: DailyLogService,
+    private popoverCtrl: PopoverController,
+    private storage:Storage,
+    private router:Router) { }
 
   ngOnInit() {
+    this.storage.get('BuJoToken').then(
+      (val) => {
+        this.accessToken = val;
+        if (this.accessToken == '') {
+          this.router.navigate(['login']);
+        }
+      }
+    ).catch(
+      () => {
+        this.router.navigate(['login']);
+      }
+    );
   }
 
   async createDailylog(date:string) {
@@ -104,8 +122,14 @@ export class DailyLogPage implements OnInit {
     return await popover.present();
   }
 
+<<<<<<< HEAD
   requestDailylogdays(date1: string, date2: string){
     
+=======
+  logout() {
+    this.storage.set('BuJoToken','');
+    this.router.navigate(['login']);
+>>>>>>> 95bc0ba6bc403bcf519cb709e7e0c2c36299befd
   }
 
 }

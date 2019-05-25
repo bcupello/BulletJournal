@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
-
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { Login } from './login';
+import { LoginResponse } from './login-response';
+import { PopoverController, ToastController } from '@ionic/angular';
+import { WrongLoginComponent } from './wrong-login/wrong-login.component';
+import { ErrorComponent } from '../components/error/error.component';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +21,18 @@ export class LoginPage implements OnInit {
 
   constructor(private storage: Storage,
     private loginService: LoginService,
-    private router: Router) { }
+    private router: Router,
+    private popoverCtrl: PopoverController,
+    private toastController: ToastController) { }
 
   ngOnInit() {
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken=val;
-        // Redirecionar, pois o usuário já possui accessToken
-        this.router.navigate(['home']);
+        if (this.accessToken != '') {
+          // Redirecionar, pois o usuário já possui accessToken
+          this.router.navigate(['home']);
+        }
       }
     )
   }
@@ -40,11 +47,71 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async wrongLog() {
+    // const popover = await this.popoverCtrl.create({
+    //   component: WrongLoginComponent,
+    //   animated: true,
+    //   showBackdrop: true,
+    //   componentProps: { popoverCtrl: this.popoverCtrl }
+    // });
+    // await popover.present();
+    const toast = await this.toastController.create({
+      message: "Cadastro não existe ou senha incorreta",
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async error() {
+    // const popover = await this.popoverCtrl.create({
+    //   component: ErrorComponent,
+    //   animated: true,
+    //   showBackdrop: true,
+    //   componentProps: { popoverCtrl: this.popoverCtrl }
+    // });
+    // await popover.present();
+    const toast = await this.toastController.create({
+      message: "Erro no servidor, tente novamente mais tarde",
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  register() {
+    this.router.navigate(['register']);
+  }
+
   login(form){
-     this.accessToken=this.loginService.retToken(form);
-     this.storage.set('BuJoToken',this.accessToken);
-     // Redirecionar, pois o usuário já possui accessToken
-     this.router.navigate(['home']);
+    let login = new Login(form.value);
+    this.loginService.logUser(login).toPromise().then(
+      (obj) => {
+        var res = new LoginResponse();
+        Object.assign(res,obj);
+
+        // Login correto
+        if (res.Status == 200) {
+          this.accessToken = res.AccessToken;
+          this.storage.set('BuJoToken',this.accessToken);
+          // Redirecionar, pois o usuário já possui accessToken
+          this.router.navigate(['home']);
+          
+        } else if (res.Status == 400) { // Login errado
+          // Login errado
+          // Cadastro não existe ou senha incorreta
+          this.wrongLog();
+          
+        } else {
+          // Erro
+          this.error();
+        }
+      }
+    ).catch(
+      () => {
+        // Erro
+        this.error();
+      }
+    )
+
   }
 
 }

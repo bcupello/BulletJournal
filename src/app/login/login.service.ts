@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
 
 import { Storage } from '@ionic/storage';
+import { Login } from './login';
+import { Observable } from 'rxjs';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Api } from '../api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: Storage, private http:HttpClient) { }
 
-  retToken(form: object): string {
-    return "comunica com service ok";
+  // Loga Usuário
+  logUser(formValues: Login): Observable<Object> {
+    const headers = new HttpHeaders().set("Content-Type","application/json");
+    const api = new Api();
+    return this.http.post(api.url+'login', formValues, {headers});
   }
 
 }
