@@ -6,7 +6,6 @@ export class DailyLogDay {
 
 	constructor(options?: {date: string; dailyLogs: DailyLog[]}){
     if (options) {
-      console.log('weeee');
       this.Date = options.date;
       this.DailyLogs = options.dailyLogs;
     }

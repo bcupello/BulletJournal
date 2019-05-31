@@ -13,7 +13,8 @@ import { Observable } from 'rxjs';
 })
 
 export class DailyLogService {
-  
+
+  private token: string;
   dailyLogs1 = [
     new DailyLog({
       "key": "1",
@@ -74,7 +75,19 @@ export class DailyLogService {
     new DailyLogDay({"date": "2019-05-19", "dailyLogs": this.dailyLogs2})
   ];
 
-  constructor(private storage: Storage, private http:HttpClient) { }
+  constructor(private storage: Storage, private http:HttpClient) {
+    this.storage.get('BuJoToken').then(
+      (val) => {
+        // console.log('entrou e recebeu token');
+        this.token = val;
+      }
+    ).catch(
+      () => {
+        // console.log('entrou e n recebeu');
+        this.token = '';
+      }
+    );
+   }
 
   getDailyLogDays(selectionDays: SelectionDays){
     console.log(selectionDays.day1, selectionDays.day2);
@@ -103,8 +116,12 @@ export class DailyLogService {
     
   }
 
-  createDailyLogService(log: DailyLog){
-    return true;
+  createDailyLogService(log: DailyLog): Observable<Object> {
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json").set("Access_Token",this.token); 
+    console.log(log);
+    console.log(headers);
+    return this.http.put(api.url+'daily-log/', log, {headers});
   }
 
   editDailyLogService(log: DailyLog){

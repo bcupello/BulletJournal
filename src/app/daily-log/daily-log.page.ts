@@ -119,8 +119,16 @@ export class DailyLogPage implements OnInit {
   }
     
   logout() {
+    this.storage.clear();
     this.storage.set('BuJoToken','');
+    
     this.router.navigate(['login']);
+    this.storage.get('BuJoToken').then(
+      (val) => {
+        console.log('token zerado');
+        console.log(val);
+      }
+    );
   }
 
 }

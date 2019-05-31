@@ -4,7 +4,7 @@ export class Api {
 
     constructor() {
         // URL da API
-        this.url = 'https://8cf60cbc.ngrok.io/';
+        this.url = 'http://192.168.91.21:3000/';
     }
 
 }
