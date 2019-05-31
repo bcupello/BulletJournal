@@ -91,6 +91,7 @@ export class RegisterPage implements OnInit {
         // Cadastro correto
         if (res.Status == 201) {
           this.accessToken = res.User.Access_token;
+          this.storage.clear();
           this.storage.set('BuJoToken',this.accessToken);
           if (this.accessToken != '') {
             // Redirecionar, pois o usuário já possui accessToken

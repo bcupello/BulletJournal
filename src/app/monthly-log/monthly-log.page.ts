@@ -33,6 +33,7 @@ export class MonthlyLogPage implements OnInit {
   }
 
   logout() {
+    this.storage.clear();
     this.storage.set('BuJoToken','');
     this.router.navigate(['login']);
   }

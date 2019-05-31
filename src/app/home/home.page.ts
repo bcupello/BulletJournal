@@ -30,6 +30,7 @@ export class HomePage {
   }
 
   logout() {
+    this.storage.clear();
     this.storage.set('BuJoToken','');
     this.router.navigate(['login']);
   }

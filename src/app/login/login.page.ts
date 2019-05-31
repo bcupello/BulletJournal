@@ -91,6 +91,7 @@ export class LoginPage implements OnInit {
         // Login correto
         if (res.Status == 200) {
           this.accessToken = res.AccessToken;
+          this.storage.clear();
           this.storage.set('BuJoToken',this.accessToken);
           // Redirecionar, pois o usuário já possui accessToken
           this.router.navigate(['home']);
