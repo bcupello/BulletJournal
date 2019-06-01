@@ -99,16 +99,19 @@ export class LoginPage implements OnInit {
         } else if (res.Status == 400) { // Login errado
           // Login errado
           // Cadastro não existe ou senha incorreta
+          this.storage.clear();
           this.wrongLog();
           
         } else {
           // Erro
+          this.storage.clear();
           this.error();
         }
       }
     ).catch(
       () => {
         // Erro
+        this.storage.clear();
         this.error();
       }
     )

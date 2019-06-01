@@ -119,8 +119,6 @@ export class DailyLogService {
   createDailyLogService(log: DailyLog): Observable<Object> {
     const api = new Api();
     const headers = new HttpHeaders().set("Content-Type","application/json").set("Access_Token",this.token); 
-    console.log(log);
-    console.log(headers);
     return this.http.put(api.url+'daily-log/', log, {headers});
   }
 

@@ -15,7 +15,6 @@ export class CreateDailyLogComponent implements OnInit {
   popover: PopoverController;
   log: DailyLog;
   toastCtrl: ToastController;
-  check: Boolean;
   
   constructor(private dailyLogService: DailyLogService, navParams: NavParams, public toastController: ToastController) { 
     this.popover = navParams.get('popoverController');
@@ -34,8 +33,7 @@ export class CreateDailyLogComponent implements OnInit {
       });
 
       toast.present();
-    }
-    else{
+    } else {
       const toast = await this.toastController.create({
         message: 'Não salvo',
         duration: 2000
@@ -46,38 +44,18 @@ export class CreateDailyLogComponent implements OnInit {
   }
 
   async createDailyLog(log: DailyLog){
-    // console.log(log);
     this.dailyLogService.createDailyLogService(log).toPromise().then(
       (obj) => {
         var response = new DailyLogResponse();
         Object.assign(response,obj);
-        console.log(response.Status);
-        // this.toastCreateDailyLog(response);
-        this.check = true;
+        this.toastCreateDailyLog(response);
       }
 
     ).catch(
       () => {
-        this.check = false;
-        // console.log('check false');
+        console.log('catch do createDailyLog');
       }
     );
-    if(this.check==true){
-      const toast = await this.toastController.create({
-        message: 'Salvo com sucesso',
-        duration: 2000
-      });
-
-      toast.present();
-    }
-    else{
-      const toast = await this.toastController.create({
-        message: 'Não salvo',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
  
     this.popover.dismiss();
   }

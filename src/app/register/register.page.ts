@@ -101,17 +101,19 @@ export class RegisterPage implements OnInit {
         } else if (res.Status == 500) { // Cadastro errado
           // Cadastro errado
           // Email deve ser único
+          this.storage.clear();
           this.wrongReg();
           
         } else {
           // Erro
-          console.log('dentro do else');
+          this.storage.clear();
           this.error();
         }
       }
     ).catch (
       () => {
         // Erro
+        this.storage.clear();
         this.error();
       }
     )
