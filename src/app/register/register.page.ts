@@ -16,6 +16,7 @@ import { ErrorComponent } from '../components/error/error.component';
 export class RegisterPage implements OnInit {
 
   typepass: string = "password";
+  typeeye: string = "eye";
   clickp: number = 0;
   accessToken: string = "";
 
@@ -31,7 +32,7 @@ export class RegisterPage implements OnInit {
         this.accessToken=val;
         if (this.accessToken != null) {
           // Redirecionar, pois o usuário já possui accessToken
-          this.router.navigate(['home']);
+          this.router.navigate(['daily-log']);
         }
         
       }
@@ -45,9 +46,11 @@ export class RegisterPage implements OnInit {
   showPass() {
     if (this.clickp==0) {
       this.typepass="text";
+      this.typeeye="eye-off";
       this.clickp=1;
     } else {
       this.typepass="password";
+      this.typeeye="eye";
       this.clickp=0;
     }
   }
@@ -101,7 +104,7 @@ export class RegisterPage implements OnInit {
               this.storage.set('BuJoToken',this.accessToken);
               if (this.accessToken != null) {
                 // Redirecionar, pois o usuário já possui accessToken
-                this.router.navigate(['home']);
+                this.router.navigate(['daily-log']);
               }
             }
           );

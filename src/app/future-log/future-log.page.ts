@@ -18,6 +18,7 @@ export class FutureLogPage implements OnInit {
     private router:Router) { }
 
   ngOnInit() {
+    this.router.navigate(['daily-log']);
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken = val;

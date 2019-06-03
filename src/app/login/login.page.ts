@@ -17,6 +17,7 @@ export class LoginPage implements OnInit {
 
   accessToken: string = "";
   typepass: string = "password";
+  typeeye: string = "eye";
   clickp: number = 0;
 
   constructor(private storage: Storage,
@@ -33,7 +34,7 @@ export class LoginPage implements OnInit {
         console.log(val);
         // Redirecionar, pois o usuário já possui accessToken
         if (this.accessToken != null) {
-          this.router.navigate(['home']);
+          this.router.navigate(['daily-log']);
         }
         
       }
@@ -43,9 +44,11 @@ export class LoginPage implements OnInit {
   showPass() {
     if (this.clickp==0) {
       this.typepass="text";
+      this.typeeye="eye-off";
       this.clickp=1;
     } else {
       this.typepass="password";
+      this.typeeye="eye";
       this.clickp=0;
     }
   }
@@ -101,7 +104,7 @@ export class LoginPage implements OnInit {
               console.log(this.accessToken);
               if (this.accessToken != null) {
                 // Redirecionar, pois o usuário já possui accessToken
-                this.router.navigate(['home']);
+                this.router.navigate(['daily-log']);
               }
             }
           );
