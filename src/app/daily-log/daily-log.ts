@@ -1,3 +1,5 @@
+import { DailyLogM } from './daily-log-m';
+
 export class DailyLog {
   key: string;
   date: string;
@@ -5,18 +7,14 @@ export class DailyLog {
   text: string;
   status: string;
 
-  constructor(options?: {
-    key: string; date: string; signifier: string;
-    text: string; status: string;
-  }){
-    if (options) {
-      this.key = options.key;
-      this.date = options.date;
-      this.signifier = options.signifier;
-      this.text = options.text;
-      this.status = options.status;
-    }
-    else{
+  constructor(dlm?: DailyLogM){
+    if (dlm){
+      this.key = dlm.Key;
+      this.date = dlm.Date;
+      this.signifier = dlm.Signifier;
+      this.text = dlm.Text;
+      this.status = dlm.Status;
+    } else {
       this.key = "";
       this.date = "";
       this.signifier = "";

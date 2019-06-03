@@ -27,7 +27,7 @@
     >
     </ion-datetime>
 
-    <ion-label>até</ion-label>
+    <ion-label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;até</ion-label>
     <ion-datetime [(ngModel)]="selectionDays.day2" name= "d2" display-format="DD/MMM/YYYY" value= "{{selectionDays.day2}}" max= "2020"
     month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
     cancel-text="Cancelar"
@@ -52,40 +52,40 @@
 
       <ion-item *ngFor="let dailyLog of dailyLogDay.DailyLogs" (click)="editDailylog(dailyLog)" >
 
-        <div *ngIf="dailyLog.signifier == 't'; then taskBlock else noTaskBlock"></div>
+        <div *ngIf="dailyLog.Signifier == 't'; then taskBlock else noTaskBlock"></div>
 
         <ng-template #taskBlock>
 
-          <div *ngIf="dailyLog.status == 'a'; then activeBlock else notActiveBlock"></div>
+          <div *ngIf="dailyLog.Status == 'a'; then activeBlock else notActiveBlock"></div>
 
           <ng-template #activeBlock>
 
             <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
             <fa-icon [icon]="['fas', 'circle']" size="xs"></fa-icon>
-            <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+            <ion-text>&nbsp;{{dailyLog.Text}}</ion-text>
   
           </ng-template>
 
           <ng-template #notActiveBlock>
 
-            <div *ngIf="dailyLog.status == 'd'; then doneBlock else notDoneBlock"></div>
+            <div *ngIf="dailyLog.Status == 'd'; then doneBlock else notDoneBlock"></div>
 
             <ng-template #doneBlock>
   
                 <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
                 <fa-icon [icon]="['fas', 'times']" size="sm"></fa-icon>
-                <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+                <ion-text>&nbsp;{{dailyLog.Text}}</ion-text>
     
             </ng-template>
   
             <ng-template #notDoneBlock>
   
-              <div *ngIf="dailyLog.status == 'p'; then postponedBlock else notPostponedBlock"></div>
+              <div *ngIf="dailyLog.Status == 'p'; then postponedBlock else notPostponedBlock"></div>
 
               <ng-template #postponedBlock>
     
                 <ion-icon name="arrow-forward"></ion-icon>
-                <ion-text>{{dailyLog.text}}</ion-text>
+                <ion-text>{{dailyLog.Text}}</ion-text>
       
               </ng-template>
     
@@ -102,13 +102,13 @@
       
                 <!-- <ng-template #notFutureBlock> -->
       
-                  <div *ngIf="dailyLog.status == 'i'; then irrelevantBlock else notIrrelevantBlock"></div>
+                  <div *ngIf="dailyLog.Status == 'i'; then irrelevantBlock else notIrrelevantBlock"></div>
 
                   <ng-template #irrelevantBlock>
         
                     <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
                     <ion-text>&nbsp;</ion-text>
-                    <ion-text class="irrelevant">&nbsp;{{dailyLog.text}}</ion-text>
+                    <ion-text class="irrelevant">&nbsp;{{dailyLog.Text}}</ion-text>
           
                   </ng-template>
         
@@ -116,7 +116,7 @@
         
                     <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
                     <fa-icon [icon]="['fas', 'minus']" size="xs"></fa-icon>
-                    <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+                    <ion-text>&nbsp;{{dailyLog.Text}}</ion-text>
         
                   </ng-template>
       
@@ -132,13 +132,13 @@
 
         <ng-template #noTaskBlock>
 
-          <div *ngIf="dailyLog.signifier == 'e'; then eventBlock else noteBlock"></div>
+          <div *ngIf="dailyLog.Signifier == 'e'; then eventBlock else noteBlock"></div>
 
           <ng-template #eventBlock>
 
             <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
             <fa-icon [icon]="['far', 'circle']" size="xs"></fa-icon>
-            <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+            <ion-text>&nbsp;{{dailyLog.Text}}</ion-text>
   
           </ng-template>
 
@@ -146,7 +146,7 @@
 
             <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
             <fa-icon [icon]="['fas', 'minus']" size="xs"></fa-icon>
-            <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+            <ion-text>&nbsp;{{dailyLog.Text}}</ion-text>
 
           </ng-template>
     

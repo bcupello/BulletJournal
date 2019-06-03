@@ -1,13 +1,13 @@
-import { DailyLog } from './daily-log';
+import { DailyLogM } from './daily-log-m';
 
 export class DailyLogDay {
 	Date: string;
-	DailyLogs: DailyLog[];
+	DailyLogs: DailyLogM[];
 
-	constructor(options?: {date: string; dailyLogs: DailyLog[]}){
+	constructor(options?: {date: string; DailyLogs: DailyLogM[]}){
     if (options) {
       this.Date = options.date;
-      this.DailyLogs = options.dailyLogs;
+      this.DailyLogs = options.DailyLogs;
     }
     else{
       this.Date = "";
