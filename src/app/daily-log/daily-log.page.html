@@ -91,16 +91,16 @@
     
               <ng-template #notPostponedBlock>
     
-                <div *ngIf="dailyLog.status == 'f'; then futureBlock else notFutureBlock"></div>
+                <!-- <div *ngIf="dailyLog.status == 'f'; then futureBlock else notFutureBlock"></div>
 
                 <ng-template #futureBlock>
       
                   <ion-icon name="arrow-back"></ion-icon>
                   <ion-text>{{dailyLog.text}}</ion-text>
         
-                </ng-template>
+                </ng-template> -->
       
-                <ng-template #notFutureBlock>
+                <!-- <ng-template #notFutureBlock> -->
       
                   <div *ngIf="dailyLog.status == 'i'; then irrelevantBlock else notIrrelevantBlock"></div>
 
@@ -108,7 +108,7 @@
         
                     <ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text><ion-text>&nbsp;</ion-text>
                     <ion-text>&nbsp;</ion-text>
-                    <ion-text>&nbsp;{{dailyLog.text}}</ion-text>
+                    <ion-text class="irrelevant">&nbsp;{{dailyLog.text}}</ion-text>
           
                   </ng-template>
         
@@ -120,7 +120,7 @@
         
                   </ng-template>
       
-                </ng-template>
+                <!-- </ng-template> -->
     
               </ng-template>
   
