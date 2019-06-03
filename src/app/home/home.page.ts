@@ -18,21 +18,28 @@ export class HomePage {
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken = val;
-        if (this.accessToken == '') {
+        console.log(val);
+        if (this.accessToken == null) {
           this.router.navigate(['login']);
         }
+        
       }
     ).catch(
       () => {
+        console.log("token apagado");
         this.router.navigate(['login']);
       }
     );
   }
 
   logout() {
-    this.storage.clear();
-    this.storage.set('BuJoToken','');
-    this.router.navigate(['login']);
+    this.storage.remove('BuJoToken').then(
+      () => {
+        console.log("token apagado");
+        this.router.navigate(['login']);
+      }
+    );
+    
   }
 
 }

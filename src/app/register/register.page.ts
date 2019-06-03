@@ -29,12 +29,17 @@ export class RegisterPage implements OnInit {
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken=val;
-        if (this.accessToken != '') {
+        if (this.accessToken != null) {
           // Redirecionar, pois o usuário já possui accessToken
           this.router.navigate(['home']);
         }
+        
       }
-    )
+    ).catch(
+      () => {
+        console.log("token apagado");
+      }
+    );
   }
 
   showPass() {
@@ -91,29 +96,44 @@ export class RegisterPage implements OnInit {
         // Cadastro correto
         if (res.Status == 201) {
           this.accessToken = res.User.Access_token;
-          this.storage.clear();
-          this.storage.set('BuJoToken',this.accessToken);
-          if (this.accessToken != '') {
-            // Redirecionar, pois o usuário já possui accessToken
-            this.router.navigate(['home']);
-          }
+          this.storage.remove('BuJoToken').then(
+            () => {
+              this.storage.set('BuJoToken',this.accessToken);
+              if (this.accessToken != null) {
+                // Redirecionar, pois o usuário já possui accessToken
+                this.router.navigate(['home']);
+              }
+            }
+          );
         
         } else if (res.Status == 500) { // Cadastro errado
           // Cadastro errado
           // Email deve ser único
-          this.storage.clear();
+          this.storage.remove('BuJoToken').then(
+            () => {
+              console.log("token apagado");
+            }
+          );
           this.wrongReg();
           
         } else {
           // Erro
-          this.storage.clear();
+          this.storage.remove('BuJoToken').then(
+            () => {
+              console.log("token apagado");
+            }
+          );
           this.error();
         }
       }
     ).catch (
       () => {
         // Erro
-        this.storage.clear();
+        this.storage.remove('BuJoToken').then(
+          () => {
+            console.log("token apagado");
+          }
+        );
         this.error();
       }
     )

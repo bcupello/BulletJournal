@@ -26,15 +26,18 @@ export class LoginPage implements OnInit {
     private toastController: ToastController) { }
 
   ngOnInit() {
+    
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken=val;
-        if (this.accessToken != '') {
-          // Redirecionar, pois o usuário já possui accessToken
+        console.log(val);
+        // Redirecionar, pois o usuário já possui accessToken
+        if (this.accessToken != null) {
           this.router.navigate(['home']);
         }
+        
       }
-    )
+    );
   }
 
   showPass() {
@@ -82,6 +85,7 @@ export class LoginPage implements OnInit {
   }
 
   login(form){
+
     let login = new Login(form.value);
     this.loginService.logUser(login).toPromise().then(
       (obj) => {
@@ -91,27 +95,45 @@ export class LoginPage implements OnInit {
         // Login correto
         if (res.Status == 200) {
           this.accessToken = res.AccessToken;
-          this.storage.clear();
-          this.storage.set('BuJoToken',this.accessToken);
-          // Redirecionar, pois o usuário já possui accessToken
-          this.router.navigate(['home']);
+          this.storage.remove('BuJoToken').then(
+            () => {
+              this.storage.set('BuJoToken',this.accessToken);
+              console.log(this.accessToken);
+              if (this.accessToken != null) {
+                // Redirecionar, pois o usuário já possui accessToken
+                this.router.navigate(['home']);
+              }
+            }
+          );
           
         } else if (res.Status == 400) { // Login errado
           // Login errado
           // Cadastro não existe ou senha incorreta
-          this.storage.clear();
+          this.storage.remove('BuJoToken').then(
+            () => {
+              console.log("token apagado");
+            }
+          );
           this.wrongLog();
           
         } else {
           // Erro
-          this.storage.clear();
+          this.storage.remove('BuJoToken').then(
+            () => {
+              console.log("token apagado");
+            }
+          );
           this.error();
         }
       }
     ).catch(
       () => {
         // Erro
-        this.storage.clear();
+        this.storage.remove('BuJoToken').then(
+          () => {
+            console.log("token apagado");
+          }
+        );
         this.error();
       }
     )
