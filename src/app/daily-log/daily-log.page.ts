@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { SelectionDays } from './selection-days';
 import { ErrorComponent } from '../components/error/error.component';
 import { DailyLogResponse } from './daily-log-response';
+import { DailyLogM } from './daily-log-m';
 
 @Component({
   selector: 'app-daily-log',
@@ -19,12 +20,13 @@ import { DailyLogResponse } from './daily-log-response';
 
 export class DailyLogPage implements OnInit {
 
-  date:String;
-  signifier:String;
-  status:String;
-  day1:String = (new Date).toISOString().slice(0,10);
-  day2:String = (new Date).toISOString().slice(0,10);
-  selectionDays:SelectionDays = new SelectionDays({"day1": this.day1,"day2":this.day2});
+  // date:String;
+  // signifier:String;
+  // status:String;
+  cont: number;
+  day1:String;
+  day2:String;
+  selectionDays:SelectionDays;
   private accessToken:String = "";
   dailyLogDays:DailyLogDay[];
 
@@ -32,16 +34,27 @@ export class DailyLogPage implements OnInit {
     private popoverCtrl: PopoverController,
     private storage:Storage,
     private router:Router,
-    private toastController: ToastController) {}
+    private toastController: ToastController) {
+      this.day1 = (new Date).toISOString().slice(0,10);
+      this.day2 = (new Date).toISOString().slice(0,10);
+      this.selectionDays = new SelectionDays();
+      this.selectionDays.day1 = this.day1;
+      this.selectionDays.day2 = this.day2;
+    }
 
   ngOnInit() {
-    this.dailyLogDays = this.dailyLogService.getDailyLogDays(this.selectionDays);
+
     this.storage.get('BuJoToken').then(
       (val) => {
         this.accessToken = val;
         console.log(this.accessToken);
         if (this.accessToken == null) {
           this.router.navigate(['login']);
+        } else {
+          console.log(this.selectionDays);
+          this.cont = 0;
+          this.requestDailylogdays(this.selectionDays);
+          
         }
         
       }
@@ -69,56 +82,60 @@ export class DailyLogPage implements OnInit {
     toast.present();
   }
 
-  async createDailylog(date:string) {
+  async createDailylog(Date:string) {
     const popover = await this.popoverCtrl.create({
         component: CreateDailyLogComponent,
         animated: true,
         showBackdrop: true,
-        componentProps: { popoverController: this.popoverCtrl, date: date }
+        componentProps: { popoverController: this.popoverCtrl, date: Date }
     });
     return await popover.present();
   }
 
-  async editDailylog(currentLog:DailyLog) {
+  async editDailylog(currentLog:DailyLogM) {
     const popover = await this.popoverCtrl.create({
         component: EditDailyLogComponent,
         animated: true,
         showBackdrop: true,
-        componentProps: { popoverController: this.popoverCtrl, currentLog: currentLog }
+        componentProps: { popoverController: this.popoverCtrl, currentLog: new DailyLog(currentLog) }
     });
     return await popover.present();
   }
 
-  requestDailylogdays(selectionDays:SelectionDays){
-    this.dailyLogDays = this.dailyLogService.getDailyLogDays(selectionDays);
-    // const obj = await this.dailyLogService.getDailyLogDays(selectionDays);
-    // obj.then((obj) => {
-    //   console.log('teste');
-    //     var res = new DailyLogResponse();
-    //     Object.assign(res,obj);
+  async toastRequestDailylogdays(res: DailyLogResponse) {
+    if (res.Status == 200) {
+      this.dailyLogDays = res.DailyLogDays;
+      console.log(this.dailyLogDays);
+    } else if (res.Status == 400) {
+      const toast = await this.toastController.create({
+        message: 'Erro de autenticação de usuário',
+        duration: 2000
+      });
 
-    //     // Login correto
-    //     if (res.Status == 200) {
-    //       this.accessToken = res.NewAccessToken;
-    //       this.storage.set('BuJoToken',this.accessToken);
-    //       this.dailyLogDays = res.DailyLogDays;
-          
-    //     } else if (res.Status == 400) { // Login errado
-    //       // Login errado
-    //       // Cadastro não existe ou senha incorreta
-    //       this.wrongLog();
-          
-    //     } else {
-    //       // Erro
-    //       this.error();
-    //     }
-    //   }
-    // ).catch(
-    //   () => {
-    //     // Erro
-    //     this.error();
-    //   }
-    // );
+      toast.present();
+      this.logout();
+
+    } else {
+      this.error();
+    }
+  }
+
+  requestDailylogdays(selectionDays:SelectionDays){
+    
+    this.dailyLogService.getDailyLogDays(selectionDays).toPromise().then(
+      (obj) => {
+        let res = new DailyLogResponse();
+        Object.assign(res,obj);
+        console.log(res);
+        this.toastRequestDailylogdays(res);
+      }
+    ).catch(
+      () => {
+        // this.error();
+        console.log("erro na requisição de daily-log-days");
+      }
+    );
+
   }
     
   logout() {
