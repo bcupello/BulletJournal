@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController, NavParams, ToastController } from '@ionic/angular';
 import { DailyLogService } from '../daily-log.service';
 import { DailyLog } from '../daily-log';
+import { DailyLogResponse } from '../daily-log-response';
 
 @Component({
   selector: 'app-edit-daily-log',
@@ -32,25 +33,34 @@ export class EditDailyLogComponent implements OnInit {
   ngOnInit() {
   }
 
-  async editDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.editDailyLogService(log);
-    if(check==true){
+  async toastEditDailyLog(response:DailyLogResponse) {
+    if (response.Status==200) {
       const toast = await this.toastController.create({
         message: 'Editado com sucesso',
         duration: 2000
       });
 
       toast.present();
+    } else {
+      this.toastEdicaoNaoRealizada();
     }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
+    console.log(response);
+  }
+
+  async editDailyLog(log: DailyLog){
+
+    this.dailyLogService.editDailyLogService(log).toPromise().then(
+      (obj) => {
+        var response = new DailyLogResponse();
+        Object.assign(response,obj);
+        this.toastEditDailyLog(response);
+      }
+    ).catch(
+      () => {
+        console.log("erro no servidor");
+      }
+    );
+    
     this.popover.dismiss();
   }
 
@@ -58,137 +68,186 @@ export class EditDailyLogComponent implements OnInit {
     this.popover.dismiss();
   }
 
-  async toDoneDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.toDoneDailyLogService(log);
-    if(check==true){
+  async toastToDoneDailyLog(response:DailyLogResponse) {
+    if (response.Status == 200) {
       const toast = await this.toastController.create({
         message: 'Tarefa marcada como feita',
         duration: 2000
       });
 
       toast.present();
+    } else {
+      this.toastEdicaoNaoRealizada();
     }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
+    console.log(response);
+  }
+
+  async toDoneDailyLog(log: DailyLog){
+
+    this.dailyLogService.toDoneDailyLogService(log).toPromise().then(
+      (obj) => {
+        var response = new DailyLogResponse();
+        Object.assign(response,obj);
+        this.toastToDoneDailyLog(response);
+      }
+    ).catch(
+      () => {
+        console.log("erro no servidor");
+      }
+    );
+    
     this.popover.dismiss();
   }
 
-  async toBeDoneDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.toBeDoneDailyLogService(log);
-    if(check==true){
+  async toastToBeDoneDailyLog(response: DailyLogResponse) {
+    if (response.Status == 200) {
       const toast = await this.toastController.create({
         message: 'Tarefa marcada como a fazer',
         duration: 2000
       });
 
       toast.present();
+    } else {
+      this.toastEdicaoNaoRealizada();
     }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
+    console.log(response);
+  }
+
+  async toBeDoneDailyLog(log: DailyLog){
+
+    this.dailyLogService.toBeDoneDailyLogService(log).toPromise().then(
+      (obj) => {
+        var response = new DailyLogResponse();
+        Object.assign(response,obj);
+        this.toastToBeDoneDailyLog(response);
+      }
+    ).catch(
+      () => {
+        console.log("erro no servidor");
+      }
+    );
+    
     this.popover.dismiss();
   }
 
-  async toNotDoingDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.toNotDoingDailyLogService(log);
-    if(check==true){
+  async toastToNotDoingDailyLog(response: DailyLogResponse) {
+    if (response.Status == 200) {
       const toast = await this.toastController.create({
         message: 'Tarefa marcada como descartada',
         duration: 2000
       });
 
       toast.present();
+    } else {
+      this.toastEdicaoNaoRealizada();
     }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
+    console.log(response);
+  }
+
+  async toNotDoingDailyLog(log: DailyLog){
+
+    this.dailyLogService.toNotDoingDailyLogService(log).toPromise().then(
+      (obj) => {
+        var response = new DailyLogResponse();
+        Object.assign(response,obj);
+        this.toastToNotDoingDailyLog(response);
+      }
+    ).catch(
+      () => {
+        console.log("erro no servidor");
+      }
+    );
+
     this.popover.dismiss();
   }
 
-  async toDoingAgainDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.toDoingAgainDailyLogService(log);
-    if(check==true){
+  async toastToDoingAgainDailyLog(response: DailyLogResponse) {
+    if (response.Status == 200) {
       const toast = await this.toastController.create({
         message: 'Tarefa marcada como a fazer',
         duration: 2000
       });
 
       toast.present();
+    } else {
+      this.toastEdicaoNaoRealizada();
     }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
+    console.log(response);
+  }
+
+  async toDoingAgainDailyLog(log: DailyLog){
+
+    this.dailyLogService.toDoingAgainDailyLogService(log).toPromise().then(
+      (obj) => {
+        var response = new DailyLogResponse();
+        Object.assign(response,obj);
+        this.toastToDoingAgainDailyLog(response);
+      }
+    ).catch(
+      () => {
+        console.log("erro no servidor");
+      }
+    );
+
     this.popover.dismiss();
   }
 
-  async postponeDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.postponeDailyLogService(log);
-    if(check==true){
+  async toastPostponeDailyLog(response: DailyLogResponse) {
+    if (response.Status == 201) {
       const toast = await this.toastController.create({
         message: 'Tarefa adiada',
         duration: 2000
       });
 
       toast.present();
+    } else {
+      this.toastEdicaoNaoRealizada();
     }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
+    console.log(response);
+  }
+
+  async postponeDailyLog(log: DailyLog){
+
+    this.dailyLogService.postponeDailyLogService(log).toPromise().then(
+      (obj) => {
+        var response = new DailyLogResponse();
+        Object.assign(response,obj);
+        this.toastPostponeDailyLog(response);
+      }
+    ).catch(
+      () => {
+        console.log("erro no servidor");
+      }
+    );
+
     this.popover.dismiss();
   }
 
-  async toFutureLogDailyLog(log: DailyLog){
-
-    const check:boolean = this.dailyLogService.toFutureLogDailyLogService(log);
-    if(check==true){
-      const toast = await this.toastController.create({
-        message: 'Tarefa mandada para o Future Log',
-        duration: 2000
-      });
-
-      toast.present();
-    }
-    else {
-      const toast = await this.toastController.create({
-        message: 'Edição não realizada',
-        duration: 2000
-      });
-      
-      toast.present();
-    }
-    this.popover.dismiss();
+  async toastEdicaoNaoRealizada() {
+    const toast = await this.toastController.create({
+      message: 'Edição não realizada',
+      duration: 2000
+    });
+    
+    toast.present();
   }
+
+  // async toFutureLogDailyLog(log: DailyLog){
+
+  //   const check:boolean = this.dailyLogService.toFutureLogDailyLogService(log);
+  //   if(check==true){
+  //     const toast = await this.toastController.create({
+  //       message: 'Tarefa mandada para o Future Log',
+  //       duration: 2000
+  //     });
+
+  //     toast.present();
+  //   }
+  //   else {
+  //     this.toastEdicaoNaoRealizada();
+  //   }
+  //   this.popover.dismiss();
+  // }
 
 
 }

@@ -6,6 +6,11 @@ import { Api } from '../api';
 import { SelectionDays } from './selection-days';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
+import { SendCreateDailyLog } from './send-create-daily-log';
+import { SendDoneDailyLog } from './send-done-daily-log';
+import { SendIrrelevantDailyLog } from './send-irrelevant-daily-log';
+import { SendPostponeDailyLog } from './send-postpone-daily-log';
+import { SendEditDailyLog } from './send-edit-daily-log';
 
 
 @Injectable({
@@ -17,7 +22,7 @@ export class DailyLogService {
   private token: string;
   dailyLogs1 = [
     new DailyLog({
-      "key": "1",
+      "key": "11bc63c8-859f-11e9-9917-4e9cc02ce1e5",
       "date": "2019-05-18",
       "signifier": "t",
       "text": "Essa é uma tarefa ativa",
@@ -78,12 +83,12 @@ export class DailyLogService {
   constructor(private storage: Storage, private http:HttpClient) {
     this.storage.get('BuJoToken').then(
       (val) => {
-        // console.log('entrou e recebeu token');
+        console.log('entrou e recebeu token');
         this.token = val;
       }
     ).catch(
       () => {
-        // console.log('entrou e n recebeu');
+        console.log('entrou e n recebeu');
         this.token = '';
       }
     );
@@ -118,36 +123,77 @@ export class DailyLogService {
 
   createDailyLogService(log: DailyLog): Observable<Object> {
     const api = new Api();
-    const headers = new HttpHeaders().set("Content-Type","application/json").set("Access_Token",this.token); 
-    return this.http.put(api.url+'daily-log/', log, {headers});
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token);
+    let send = new SendCreateDailyLog(log);
+    console.log({headers});
+    console.log(send);
+    console.log(this.token);
+    return this.http.put(api.url+'daily-log/', send, {headers});
   }
 
-  editDailyLogService(log: DailyLog){
-    return true;
+  editDailyLogService(log: DailyLog): Observable<Object> {
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token);
+    let send = new SendEditDailyLog(log);
+    console.log(send);
+    console.log(this.token);
+    return this.http.post(api.url+'daily-log/', send, {headers});
   }
 
-  toDoneDailyLogService(log: DailyLog){
-    return true;
+  toDoneDailyLogService(log: DailyLog): Observable<Object>{
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token); 
+    let send = new SendDoneDailyLog(log, true);
+    console.log(send);
+    console.log(this.token);
+    return this.http.post(api.url+'daily-log/', send, {headers});
   }
 
   toBeDoneDailyLogService(log: DailyLog){
-    return true;
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token);
+    let send = new SendDoneDailyLog(log, false);
+    console.log(send);
+    console.log(this.token);
+    return this.http.post(api.url+'daily-log/', send, {headers});
   }
 
   toNotDoingDailyLogService(log: DailyLog){
-    return true;
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token);
+    let send = new SendIrrelevantDailyLog(log, true);
+    console.log(send);
+    console.log(this.token);
+    return this.http.post(api.url+'daily-log/', send, {headers});
   }
 
   toDoingAgainDailyLogService(log: DailyLog){
-    return true;
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token);
+    let send = new SendIrrelevantDailyLog(log,false);
+    console.log(send);
+    console.log(this.token);
+    return this.http.post(api.url+'daily-log/', send, {headers});
   }
 
   postponeDailyLogService(log: DailyLog){
-    return true;
+    const api = new Api();
+    const headers = new HttpHeaders().set("Content-Type","application/json")
+    .set("Access_Token",this.token);
+    let send = new SendPostponeDailyLog(log);
+    console.log(send);
+    console.log(this.token);
+    return this.http.post(api.url+'daily-log/', send, {headers});
   }
 
-  toFutureLogDailyLogService(log: DailyLog){
-    return true;
-  }
+  // toFutureLogDailyLogService(log: DailyLog){
+  //   return false;
+  // }
 
 }
