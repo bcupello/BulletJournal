@@ -18,7 +18,9 @@ export class CreateDailyLogComponent implements OnInit {
   
   constructor(private dailyLogService: DailyLogService, navParams: NavParams, public toastController: ToastController) { 
     this.popover = navParams.get('popoverController');
-    this.log = { key: "", date: "", signifier: "", text: "", status: ""};
+    this.log = {
+      key: "", date: "", signifier: "", text: "", status: ""
+    };
     this.log.date = navParams.get('date');
   }
 
@@ -41,6 +43,7 @@ export class CreateDailyLogComponent implements OnInit {
       
       toast.present();
     }
+    console.log(response);
   }
 
   async createDailyLog(log: DailyLog){
@@ -53,7 +56,7 @@ export class CreateDailyLogComponent implements OnInit {
 
     ).catch(
       () => {
-        console.log('catch do createDailyLog');
+        console.log('erro no servidor');
       }
     );
  

@@ -21,7 +21,7 @@ readonly="true"
 <ion-input [(ngModel)]="newLog.text" name="text" placeholder="Descrição"></ion-input>
 
 <ion-item>
-  <ion-button (click)="editDailyLog(log)">Salvar</ion-button>
+  <ion-button (click)="editDailyLog(newLog)">Salvar</ion-button>
   <ion-button (click)="dismiss()">Cancelar</ion-button>
 </ion-item>
 
@@ -34,11 +34,11 @@ readonly="true"
   <ng-template #activeBlock>
 
     <ion-item>
-      <ion-button (click)="toDoneDailyLog(log)">Marcar Como Feita</ion-button>
+      <ion-button (click)="toDoneDailyLog(newLog)">Marcar Como Feita</ion-button>
     </ion-item>
 
     <ion-item>
-      <ion-button (click)="toNotDoingDailyLog(log)">Não Fazer Mais</ion-button>
+      <ion-button (click)="toNotDoingDailyLog(newLog)">Não Fazer Mais</ion-button>
     </ion-item>
 
     <div *ngIf="postponeClicked == 0; then showPostponeBlock else chooseDateBlock"></div>
@@ -46,7 +46,7 @@ readonly="true"
     <ng-template #showPostponeBlock>
 
       <ion-item>
-        <ion-button expand= "block" (click)="postponeClicked=1">Adiar Para <br> Monthly Log Posterior</ion-button>
+        <ion-button expand= "block" (click)="postponeClicked=1">Adiar Para <br> Daily Log Posterior</ion-button>
       </ion-item>
 
     </ng-template>
@@ -54,7 +54,7 @@ readonly="true"
     <ng-template #chooseDateBlock>
 
       
-        <ion-datetime display-format="MMM/YY" value= "{{newLog.date}}"
+        <ion-datetime [(ngModel)]="newLog.date" display-format="DD/MMM/YY"
         month-short-names="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
         cancel-text="Cancelar"
         done-text="Confirmar"
@@ -65,15 +65,15 @@ readonly="true"
       
 
       <ion-item>
-        <ion-button (click)="postponeDailyLog(log)">Adiar</ion-button>
+        <ion-button (click)="postponeDailyLog(newLog)">Adiar</ion-button>
         <ion-button (click)="postponeClicked=0">Não Adiar</ion-button>
       </ion-item>
 
     </ng-template>
 
-    <ion-item>
+    <!-- <ion-item>
       <ion-button (click)="toFutureLogDailyLog(log)">Mandar Para Future Log</ion-button>
-    </ion-item>
+    </ion-item> -->
 
   </ng-template>
 
@@ -84,7 +84,7 @@ readonly="true"
     <ng-template #doneBlock>
 
       <ion-item>
-        <ion-button (click)="toBeDoneDailyLog(log)">Marcar Como Não Feito</ion-button>
+        <ion-button (click)="toBeDoneDailyLog(newLog)">Marcar Como Não Feito</ion-button>
       </ion-item>
 
     </ng-template>
@@ -94,7 +94,7 @@ readonly="true"
     <ng-template #irrelevantBlock>
 
       <ion-item>
-        <ion-button (click)="toDoingAgainDailyLog(log)">Voltar a Fazer</ion-button>
+        <ion-button (click)="toDoingAgainDailyLog(newLog)">Voltar a Fazer</ion-button>
       </ion-item>
 
     </ng-template>

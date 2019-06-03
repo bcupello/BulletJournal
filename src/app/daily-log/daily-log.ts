@@ -5,7 +5,10 @@ export class DailyLog {
   text: string;
   status: string;
 
-  constructor(options?: {key: string; date: string; signifier: string; text: string; status: string;}){
+  constructor(options?: {
+    key: string; date: string; signifier: string;
+    text: string; status: string;
+  }){
     if (options) {
       this.key = options.key;
       this.date = options.date;
